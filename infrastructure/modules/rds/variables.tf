@@ -9,9 +9,9 @@ variable "project_name" {
   type = string
 }
 
-variable "allowed_rds_cidrs" {
+variable "allowed_vpc_cidrs" {
+  description = "Allowed VPC cidrs"
   type	= list(string)
-  default = ["10.0.0.0/16"]
 }
 
 variable "identifier" {
