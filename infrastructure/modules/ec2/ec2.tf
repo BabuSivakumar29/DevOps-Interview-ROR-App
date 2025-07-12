@@ -24,8 +24,8 @@ resource "aws_launch_template" "ecs" {
   instance_type = var.instance_type
 
   iam_instance_profile {
-#    name = aws_iam_instance_profile.ecs_instance_profile.name
-    name = var.ecs_instance_profile_name
+    #    name = aws_iam_instance_profile.ecs_instance_profile.name
+    name = var.ec2_instance_profile_name
   }
 
   network_interfaces {
@@ -35,7 +35,7 @@ resource "aws_launch_template" "ecs" {
 
   user_data = base64encode(<<EOF
 #!/bin/bash
-echo ECS_CLUSTER=${aws_ecs_cluster.main.name} >> /etc/ecs/ecs.config
+echo ECS_CLUSTER=var.ecs_cluster_name >> /etc/ecs/ecs.config
 EOF
   )
 }

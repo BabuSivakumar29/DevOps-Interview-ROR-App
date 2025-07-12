@@ -26,14 +26,14 @@ variable "private_subnet_cidrs" {
 # #################
 # RDS
 # #################
-variable "identifier" {}
+variable "rds_hostname" {}
 variable "engine" {}
 variable "engine_version" {}
 variable "instance_class" {}
-variable "db_storage" {}
-variable "db_username" {}
-variable "db_password" {}
-variable "db_name" {}
+variable "rds_storage" {}
+variable "rds_username" {}
+variable "rds_password" {}
+variable "rds_db_name" {}
 
 # ##############
 # S3
@@ -48,8 +48,9 @@ variable "ecr_repo_name" {}
 # ##############
 # IAM
 # ##############
-variable "ecs-instance-role" {}
-variable "ecs-instance-profile" {}
+variable "ec2-instance-role" {}
+variable "ec2-instance-profile" {}
+variable "ecs-task-exec-role" {}
 
 # ##############
 # EC2
@@ -64,3 +65,14 @@ variable "target_group" {}
 variable "alb_name" {}
 variable "autoscaling_name" {}
 variable "ecs_cluster_name" {}
+
+# ##############
+# ECS
+# ##############
+variable "ecs-task-definition" {}
+variable "app_image" {}
+variable "nginx_image" {}
+variable "rds_port" {}
+variable "s3_region_name" {}
+variable "ecs_cp" {}
+variable "ecs_service_name" {}

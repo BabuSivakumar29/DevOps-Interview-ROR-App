@@ -42,7 +42,7 @@ resource "aws_lb" "ecs_alb" {
   name               = var.alb_name
   internal           = false
   load_balancer_type = "application"
-  security_groups    = aws_security_group.alb_sg.id
+  security_groups    = [aws_security_group.alb_sg.id]
   subnets            = var.public_subnet_ids
 
   tags = {
@@ -62,17 +62,17 @@ resource "aws_lb_listener" "ecs_listener" {
 }
 
 resource "aws_autoscaling_group" "ecs_asg" {
-  name                      = var.autoscaling_name
-  max_size                  = 3
-  min_size                  = 2
-  desired_capacity          = 2
-  vpc_zone_identifier       = var.private_subnet_ids
-  health_check_type         = "EC2"
+  name                = var.autoscaling_name
+  max_size            = 3
+  min_size            = 2
+  desired_capacity    = 2
+  vpc_zone_identifier = var.private_subnet_ids
+  health_check_type   = "EC2"
   launch_template {
     id      = var.ecs_launch_template_id
     version = "$Latest"
   }
-  target_group_arns         = aws_lb_target_group.ecs_tg.arn
+  target_group_arns = [aws_lb_target_group.ecs_tg.arn]
 
   tag {
     key                 = "Name"
@@ -84,5 +84,8 @@ resource "aws_autoscaling_group" "ecs_asg" {
     key                 = "AmazonECSCluster"
     value               = var.ecs_cluster_name
     propagate_at_launch = true
+  }
+  lifecycle {
+    create_before_destroy = true
   }
 }

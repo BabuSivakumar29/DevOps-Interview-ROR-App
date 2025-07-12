@@ -1,55 +1,59 @@
-variable "vpc_id" {}
-
-variable "private_subnet_ids" {
-  type = list(string)
-}
-
 variable "project_name" {
   description = "Project name"
-  type = string
+  type        = string
+}
+
+variable "vpc_id" {
+  description = "VPC ID"
+  type        = string
+}
+
+variable "private_subnet_ids" {
+  description = "Private subnets for RDS"
+  type        = list(string)
 }
 
 variable "allowed_vpc_cidrs" {
   description = "Allowed VPC cidrs"
-  type	= list(string)
+  type        = list(string)
 }
 
-variable "identifier" {
+variable "rds_hostname" {
   description = "DB identifier"
-  type = string
+  type        = string
 }
 
 variable "engine" {
   description = "DB engine"
-  type = string
+  type        = string
 }
 
 variable "engine_version" {
   description = "DB version"
-  type = string
+  type        = string
 }
 
 variable "instance_class" {
   description = "DB instance class"
-  type = string
+  type        = string
 }
 
-variable "db_storage" {
+variable "rds_storage" {
   description = "DB storage size"
-  type = string
+  type        = string
 }
 
-variable "db_username" {
+variable "rds_username" {
   description = "DB username"
-  type = string
+  type        = string
 }
 
-variable "db_password" {
+variable "rds_password" {
   description = "DB password"
-  type = string
+  type        = string
 }
 
-variable "db_name" {
+variable "rds_db_name" {
   description = "DB name"
-  type = string
+  type        = string
 }

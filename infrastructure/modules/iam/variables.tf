@@ -1,9 +1,14 @@
-variable "ecs-instance-role" {
+variable "ec2-instance-role" {
   description = "EC2 instance role"
-  type = string
+  type        = string
 }
 
-variable "ecs-instance-profile" {
+variable "ec2-instance-profile" {
   description = "ECS instance profile"
-  type = string
+  type        = string
+}
+
+variable "ecs-task-exec-role" {
+  description = "ECS task execution role"
+  type        = string
 }

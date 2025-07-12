@@ -1,5 +1,5 @@
 export AWS_REGION=eu-west-1
-export PROJECT_NAME=ror-app
+export PROJECT_NAME=rails-app
 
 check_defined = \
 	$(strip $(foreach 1,$1, $(call __check_defined,$1,$(strip $(value 2)))))

@@ -2,7 +2,7 @@
 resource "aws_db_subnet_group" "rds_subnet_group" {
   name       = "${var.project_name}-rds-subnet-group"
   subnet_ids = var.private_subnet_ids
-#  subnet_ids = [for subnet in aws_subnet.private : subnet.id]
+  #  subnet_ids = [for subnet in aws_subnet.private : subnet.id]
 
   tags = {
     Name = "${var.project_name}-rds-subnet-group"
@@ -37,22 +37,22 @@ resource "aws_security_group" "rds_sg" {
 
 # RDS Instance creation
 resource "aws_db_instance" "postgres" {
-  identifier           = var.identifier
-  engine               = var.engine
-  engine_version       = var.engine_version
-  instance_class       = var.instance_class
-  allocated_storage    = var.db_storage
-  storage_encrypted    = true
-  username             = var.db_username
-  password             = var.db_password
-  db_name              = var.db_name
-  port                 = 5432
+  identifier             = var.rds_hostname
+  engine                 = var.engine
+  engine_version         = var.engine_version
+  instance_class         = var.instance_class
+  allocated_storage      = var.rds_storage
+  storage_encrypted      = true
+  username               = var.rds_username
+  password               = var.rds_password
+  db_name                = var.rds_db_name
+  port                   = 5432
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
   db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.name
   publicly_accessible    = false
   skip_final_snapshot    = true
 
   tags = {
-    Name = var.identifier
+    Name = var.rds_hostname
   }
 }
