@@ -42,6 +42,7 @@ module "iam" {
   ec2-instance-role    = var.ec2-instance-role
   ec2-instance-profile = var.ec2-instance-profile
   ecs-task-exec-role   = var.ecs-task-exec-role
+  s3_bucket_name       = var.s3_bucket_name
 }
 
 module "ec2" {

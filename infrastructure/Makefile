@@ -58,3 +58,4 @@ create-ecr: verify-terraform-params
 		-var 'aws_secret_key=$(AWS_SECRET_ACCESS_KEY)' \
 		-var 'aws_session_token=$(AWS_SESSION_TOKEN)' && \
 	$(MAKE) apply
+

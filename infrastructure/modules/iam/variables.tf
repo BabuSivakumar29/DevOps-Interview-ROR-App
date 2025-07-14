@@ -12,3 +12,8 @@ variable "ecs-task-exec-role" {
   description = "ECS task execution role"
   type        = string
 }
+
+variable "s3_bucket_name" {
+  description = "ECS task execution role"
+  type        = string
+}

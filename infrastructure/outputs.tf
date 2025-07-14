@@ -7,3 +7,8 @@ output "webserver_ecr_url" {
   description = "Webserver (Nginx) ECR repository URL"
   value       = module.ecr_webserver.ecr_repository_url
 }
+
+#output "alb_dns_name" {
+#  description = "DNS name of the Application Load Balancer"
+#  value       = module.aws_lb.ecs_alb.dns_name
+#}
