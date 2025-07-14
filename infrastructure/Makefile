@@ -1,6 +1,7 @@
 export AWS_REGION=eu-west-1
 export PROJECT_NAME=rails-app
 
+
 check_defined = \
 	$(strip $(foreach 1,$1, $(call __check_defined,$1,$(strip $(value 2)))))
 
@@ -43,3 +44,17 @@ apply: $(check_defined, PROJECT_NAME)
 
 destroy: $(check_defined, PROJECT_NAME)
 	terraform apply $(PROJECT_NAME)-destroy-plan-file
+
+refresh:
+	terraform apply -refresh-only
+
+create-ecr: verify-terraform-params
+	terraform init && \
+	terraform plan \
+		-target=module.ecr_backend \
+		-target=module.ecr_webserver \
+		-out='$(PROJECT_NAME)-plan-file' \
+		-var 'aws_access_key=$(AWS_ACCESS_KEY_ID)' \
+		-var 'aws_secret_key=$(AWS_SECRET_ACCESS_KEY)' \
+		-var 'aws_session_token=$(AWS_SESSION_TOKEN)' && \
+	$(MAKE) apply

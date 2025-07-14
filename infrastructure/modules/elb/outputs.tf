@@ -27,3 +27,8 @@ output "ecs_security_group_id" {
   description = "The ID of the security group for Loadbalancer"
   value       = aws_security_group.alb_sg.id
 }
+
+output "autoscaling_group_arn" {
+  description = "Name of the ECS Auto Scaling Group"
+  value       = aws_autoscaling_group.ecs_asg.arn
+}

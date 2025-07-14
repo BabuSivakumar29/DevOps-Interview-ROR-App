@@ -88,6 +88,11 @@ variable "ecs_security_group_id" {
   type        = string
 }
 
+variable "ecs_security_group_arn" {
+  description = "ECS security group arn"
+  type        = string
+}
+
 variable "alb_target_group_arn" {
   description = "ALB target group ARN"
   type        = string
@@ -95,5 +100,10 @@ variable "alb_target_group_arn" {
 
 variable "lb_listener_arn" {
   description = "Listener ARN (used to enforce dependency)"
+  type        = string
+}
+
+variable "autoscaling_group_arn" {
+  description = "ARN of the Auto Scaling Group"
   type        = string
 }

@@ -2,3 +2,4 @@
 *-plan-file
 infrastructure/.terraform
 infrastructure/.terraform.lock.hcl
+*.tfstate

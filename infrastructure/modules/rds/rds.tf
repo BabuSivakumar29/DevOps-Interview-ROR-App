@@ -37,7 +37,7 @@ resource "aws_security_group" "rds_sg" {
 
 # RDS Instance creation
 resource "aws_db_instance" "postgres" {
-  identifier             = var.rds_hostname
+  identifier             = var.rds_identifier
   engine                 = var.engine
   engine_version         = var.engine_version
   instance_class         = var.instance_class
@@ -53,6 +53,6 @@ resource "aws_db_instance" "postgres" {
   skip_final_snapshot    = true
 
   tags = {
-    Name = var.rds_hostname
+    Name = var.rds_identifier
   }
 }

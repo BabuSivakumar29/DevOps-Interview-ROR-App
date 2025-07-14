@@ -6,7 +6,7 @@ resource "aws_security_group" "alb_sg" {
     from_port   = 0
     to_port     = 65535
     protocol    = "tcp"
-    cidr_blocks = var.allowed_vpc_cidrs
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -19,9 +19,9 @@ resource "aws_security_group" "alb_sg" {
 
 resource "aws_lb_target_group" "ecs_tg" {
   name        = var.target_group
-  port        = 8080
+  port        = 80
   protocol    = "HTTP"
-  target_type = "ip"
+  target_type = "instance"
   vpc_id      = var.vpc_id
 
   health_check {
@@ -59,6 +59,7 @@ resource "aws_lb_listener" "ecs_listener" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.ecs_tg.arn
   }
+  depends_on = [aws_lb_target_group.ecs_tg]
 }
 
 resource "aws_autoscaling_group" "ecs_asg" {

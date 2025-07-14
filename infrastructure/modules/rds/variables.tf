@@ -18,7 +18,7 @@ variable "allowed_vpc_cidrs" {
   type        = list(string)
 }
 
-variable "rds_hostname" {
+variable "rds_identifier" {
   description = "DB identifier"
   type        = string
 }

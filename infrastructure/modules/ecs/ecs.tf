@@ -6,7 +6,7 @@ resource "aws_ecs_cluster" "main" {
 # Creating ECS task definition
 resource "aws_ecs_task_definition" "app" {
   family                   = var.ecs-task-definition
-  network_mode             = "awsvpc"
+  network_mode             = "bridge"
   requires_compatibilities = ["EC2"]
   cpu                      = "256"
   memory                   = "512"
@@ -45,12 +45,20 @@ resource "aws_ecs_task_definition" "app" {
     },
     {
       name      = "nginx"
-      image     = var.nginx_image # e.g., "your-dockerhub-user/webserver:latest"
+      image     = var.nginx_image
       essential = false
       portMappings = [
         {
-          containerPort = 8080
+          containerPort = 80
+          hostPort      = 80
           protocol      = "tcp"
+        }
+      ]
+      links  = ["rails_app"],
+      dependsOn   = [
+        {
+          containerName = "rails_app",
+          condition     = "START"
         }
       ]
       logConfiguration = {
@@ -76,7 +84,7 @@ resource "aws_ecs_capacity_provider" "ecs_cp" {
   name = var.ecs_cp
 
   auto_scaling_group_provider {
-    auto_scaling_group_arn = var.ecs_security_group_id
+    auto_scaling_group_arn = var.autoscaling_group_arn
 
     managed_scaling {
       status                    = "ENABLED"
@@ -112,16 +120,10 @@ resource "aws_ecs_service" "app" {
   deployment_minimum_healthy_percent = 50
   deployment_maximum_percent         = 200
 
-  network_configuration {
-    subnets          = var.private_subnet_ids
-    security_groups  = [var.ecs_security_group_id]
-    assign_public_ip = false
-  }
-
   load_balancer {
     target_group_arn = var.alb_target_group_arn
     container_name   = "nginx"
-    container_port   = 8080
+    container_port   = 80
   }
 
   capacity_provider_strategy {

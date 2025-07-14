@@ -26,11 +26,11 @@ variable "private_subnet_cidrs" {
 # #################
 # RDS
 # #################
-variable "rds_hostname" {}
 variable "engine" {}
 variable "engine_version" {}
 variable "instance_class" {}
 variable "rds_storage" {}
+variable "rds_identifier" {}
 variable "rds_username" {}
 variable "rds_password" {}
 variable "rds_db_name" {}
@@ -43,7 +43,8 @@ variable "s3_bucket_name" {}
 # ##############
 # ECR
 # ##############
-variable "ecr_repo_name" {}
+variable "backend_repo_name" {}
+variable "webserver_repo_name" {}
 
 # ##############
 # IAM

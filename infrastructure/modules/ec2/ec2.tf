@@ -6,7 +6,7 @@ resource "aws_security_group" "ecs_sg" {
     from_port   = 0
     to_port     = 65535
     protocol    = "tcp"
-    cidr_blocks = var.allowed_vpc_cidrs
+    security_groups = [var.ecs_security_group_id]
   }
 
   egress {
@@ -35,7 +35,7 @@ resource "aws_launch_template" "ecs" {
 
   user_data = base64encode(<<EOF
 #!/bin/bash
-echo ECS_CLUSTER=var.ecs_cluster_name >> /etc/ecs/ecs.config
+echo ECS_CLUSTER=${var.ecs_cluster_name} >> /etc/ecs/ecs.config
 EOF
   )
 }

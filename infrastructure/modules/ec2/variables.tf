@@ -3,9 +3,9 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "allowed_vpc_cidrs" {
-  description = "Allowed VPC cidrs"
-  type        = list(string)
+variable "ecs_security_group_id" {
+  description = "Allowing ALB security group"
+  type        = string
 }
 
 variable "ecs_launch_template" {

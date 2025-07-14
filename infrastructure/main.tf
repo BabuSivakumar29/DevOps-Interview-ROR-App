@@ -15,7 +15,7 @@ module "rds" {
   engine             = var.engine
   engine_version     = var.engine_version
   instance_class     = var.instance_class
-  rds_hostname       = var.rds_hostname
+  rds_identifier     = var.rds_identifier
   rds_storage        = var.rds_storage
   rds_username       = var.rds_username
   rds_password       = var.rds_password
@@ -27,9 +27,14 @@ module "s3" {
   s3_bucket_name = var.s3_bucket_name
 }
 
-module "ecr" {
-  source        = "./modules/ecr"
-  ecr_repo_name = var.ecr_repo_name
+module "ecr_backend" {
+  source         = "./modules/ecr"
+  ecr_repo_name  = var.backend_repo_name
+}
+
+module "ecr_webserver" {
+  source         = "./modules/ecr"
+  ecr_repo_name  = var.webserver_repo_name
 }
 
 module "iam" {
@@ -42,7 +47,7 @@ module "iam" {
 module "ec2" {
   source                    = "./modules/ec2"
   vpc_id                    = module.vpc.vpc_id
-  allowed_vpc_cidrs         = var.allowed_vpc_cidrs
+  ecs_security_group_id     = module.elb.ecs_security_group_id
   ecs_launch_template       = var.ecs_launch_template
   instance_type             = var.instance_type
   ec2_instance_profile_name = module.iam.ec2_instance_profile_name
@@ -68,12 +73,12 @@ module "ecs" {
   project_name          = var.project_name
   ecs-task-definition   = var.ecs-task-definition
   ecs_task_exec_role    = module.iam.ecs_task_execution_role_arn
-  app_image             = var.app_image
-  nginx_image           = var.nginx_image
+  app_image             = module.ecr_backend.ecr_repository_url
+  nginx_image           = module.ecr_webserver.ecr_repository_url
   rds_db_name           = var.rds_db_name
   rds_username          = var.rds_username
   rds_password          = var.rds_password
-  rds_hostname          = var.rds_hostname
+  rds_hostname          = module.rds.rds_hostname
   rds_port              = var.rds_port
   s3_bucket_name        = var.s3_bucket_name
   s3_region_name        = var.s3_region_name
@@ -83,6 +88,8 @@ module "ecs" {
   ecs_service_name      = var.ecs_service_name
   private_subnet_ids    = module.vpc.private_subnet_ids
   ecs_security_group_id = module.ec2.ecs_security_group_id
+  ecs_security_group_arn = module.ec2.ecs_security_group_arn
   alb_target_group_arn  = module.elb.target_group_arn
   lb_listener_arn	= module.elb.alb_listener_arn
+  autoscaling_group_arn = module.elb.autoscaling_group_arn
 }
